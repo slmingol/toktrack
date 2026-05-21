@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/slmingol/toktrack/compare/v3.1.0...v3.1.1) (2026-05-21)
+
+
+### Performance
+
+* **docker:** cache dependency layer to speed up incremental builds ([c697074](https://github.com/slmingol/toktrack/commit/c697074269b805429baea648b8194a6abbff63ef))
+
 ## [3.1.0](https://github.com/slmingol/toktrack/compare/v3.0.1...v3.1.0) (2026-05-21)
 
 
