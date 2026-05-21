@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.0.1](https://github.com/slmingol/toktrack/compare/v3.0.0...v3.0.1) (2026-05-21)
+
+
+### Bug Fixes
+
+* **ci:** point homebrew bump at slmingol/homebrew-tap ([495159d](https://github.com/slmingol/toktrack/commit/495159d502375651f222b0afc1cd95ee487c16aa))
+* **ci:** skip npm publish via step-level env check ([588ff9a](https://github.com/slmingol/toktrack/commit/588ff9aba5b3bcf09aefa1dd177a629db8230d72))
+* **ci:** skip npm publish when NPM_TOKEN secret is absent ([523bf38](https://github.com/slmingol/toktrack/commit/523bf38e9a8b18762869e3474263ef586b817fe3))
+* **ci:** skip npm publish when NPM_TOKEN secret is absent ([17c647c](https://github.com/slmingol/toktrack/commit/17c647c80d0149a8be375e2b484499479c44dca9))
+
 ## [3.0.0](https://github.com/slmingol/toktrack/compare/v2.7.4...v3.0.0) (2026-05-21)
 
 
