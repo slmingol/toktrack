@@ -146,7 +146,6 @@ jobs:
     name: Publish to npm
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ secrets.NPM_TOKEN != '' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -177,6 +176,7 @@ jobs:
           chmod +x npm/bin/*
 
       - name: Publish to npm
+        if: ${{ env.NODE_AUTH_TOKEN != '' }}
         run: cd npm && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
