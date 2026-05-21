@@ -1,7 +1,7 @@
 services:
   toktrack:
     build: .
-    image: toktrack:local
+    image: ${TOKTRACK_IMAGE:-ghcr.io/slmingol/toktrack:latest}
     stdin_open: true
     tty: true
     environment:

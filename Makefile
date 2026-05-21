@@ -15,7 +15,7 @@ endif
 GHCR_OWNER ?= slmingol
 GHCR_IMAGE  := ghcr.io/$(GHCR_OWNER)/toktrack:latest
 
-.PHONY: check fmt clippy test build release setup docker-build docker-pull docker-run docker-report help
+.PHONY: check fmt clippy test build release setup docker-build docker-pull docker-run docker-report _ensure-image help
 
 help:
 	@echo "Usage: make <target>"
@@ -31,9 +31,9 @@ help:
 	@echo ""
 	@echo "Container (docker or podman, auto-detected)"
 	@echo "  docker-build  Build image locally"
-	@echo "  docker-pull   Pull image from GHCR (ghcr.io/$(GHCR_OWNER)/toktrack)"
-	@echo "  docker-run    Launch TUI (interactive)"
-	@echo "  docker-report Run CLI report mode"
+	@echo "  docker-pull   Pull image from GHCR explicitly"
+	@echo "  docker-run    Launch TUI (GHCR if available, local build fallback)"
+	@echo "  docker-report CLI report mode (GHCR if available, local build fallback)"
 
 # Run all checks (used by pre-commit)
 check: fmt-check clippy test
@@ -62,22 +62,27 @@ build:
 release:
 	cargo build --release
 
-# Docker/Podman: build image locally
+# Docker/Podman: build image locally (tags as GHCR image name)
 docker-build:
 	$(COMPOSE) build
 
-# Pull image from GHCR and tag as toktrack:local for use with docker-run
+# Pull GHCR image explicitly
 docker-pull:
 	$(RUNTIME) pull $(GHCR_IMAGE)
-	$(RUNTIME) tag $(GHCR_IMAGE) toktrack:local
+
+# Ensure image is available: local cache → GHCR pull → local build
+_ensure-image:
+	@$(RUNTIME) image inspect $(GHCR_IMAGE) >/dev/null 2>&1 \
+	    || $(RUNTIME) pull $(GHCR_IMAGE) 2>/dev/null \
+	    || (echo "[toktrack] GHCR unavailable, building locally..." && $(COMPOSE) build --quiet)
 
 # Docker/Podman: run TUI (interactive)
-docker-run:
-	$(COMPOSE) run --rm toktrack
+docker-run: _ensure-image
+	TOKTRACK_IMAGE=$(GHCR_IMAGE) $(COMPOSE) run --rm toktrack
 
 # Docker/Podman: run CLI report (non-interactive)
-docker-report:
-	$(COMPOSE) run --rm toktrack report
+docker-report: _ensure-image
+	TOKTRACK_IMAGE=$(GHCR_IMAGE) $(COMPOSE) run --rm toktrack report
 
 # Setup git hooks
 setup:
