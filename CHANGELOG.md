@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/slmingol/toktrack/compare/v3.0.1...v3.1.0) (2026-05-21)
+
+
+### Features
+
+* **docker:** smart image resolution (GHCR preferred, local fallback) ([67e2443](https://github.com/slmingol/toktrack/commit/67e24434c5b8a3baa4f1b1b1be0c75ebbc009dc7))
+
 ## [3.0.1](https://github.com/slmingol/toktrack/compare/v3.0.0...v3.0.1) (2026-05-21)
 
 
