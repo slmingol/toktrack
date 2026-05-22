@@ -32,8 +32,8 @@ help:
 	@echo "Container (docker or podman, auto-detected)"
 	@echo "  docker-build  Build image locally"
 	@echo "  docker-pull   Pull image from GHCR explicitly"
-	@echo "  docker-run    Launch TUI (GHCR if available, local build fallback)"
-	@echo "  docker-report CLI report mode (GHCR if available, local build fallback)"
+	@echo "  docker-run    Launch TUI (GHCR if available, local build fallback). ARGS= for extra flags"
+	@echo "  docker-report CLI report mode (GHCR if available, local build fallback). ARGS= for extra flags"
 
 # Run all checks (used by pre-commit)
 check: fmt-check clippy test
@@ -76,13 +76,13 @@ _ensure-image:
 	    || $(RUNTIME) pull $(GHCR_IMAGE) 2>/dev/null \
 	    || (echo "[toktrack] GHCR unavailable, building locally..." && $(COMPOSE) build --quiet)
 
-# Docker/Podman: run TUI (interactive)
+# Docker/Podman: run TUI (interactive). Pass extra args via ARGS=: make docker-run ARGS=weekly
 docker-run: _ensure-image
-	TOKTRACK_IMAGE=$(GHCR_IMAGE) $(COMPOSE) run --rm toktrack
+	TOKTRACK_IMAGE=$(GHCR_IMAGE) $(COMPOSE) run --rm toktrack $(ARGS)
 
-# Docker/Podman: run CLI report (non-interactive)
+# Docker/Podman: run CLI report (non-interactive). Pass extra args via ARGS=
 docker-report: _ensure-image
-	TOKTRACK_IMAGE=$(GHCR_IMAGE) $(COMPOSE) run --rm toktrack report
+	TOKTRACK_IMAGE=$(GHCR_IMAGE) $(COMPOSE) run --rm toktrack report $(ARGS)
 
 # Setup git hooks
 setup:
