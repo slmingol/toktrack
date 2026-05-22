@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.2](https://github.com/slmingol/toktrack/compare/v3.1.1...v3.1.2) (2026-05-22)
+
+
+### Bug Fixes
+
+* **docker:** stub bench file in deps layer to satisfy manifest validation ([c49c40e](https://github.com/slmingol/toktrack/commit/c49c40e23c4eb1ddacddd8078c378c35bcf47090))
+
 ## [3.1.1](https://github.com/slmingol/toktrack/compare/v3.1.0...v3.1.1) (2026-05-21)
 
 
