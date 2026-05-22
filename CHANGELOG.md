@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/slmingol/toktrack/compare/v3.1.2...v3.2.0) (2026-05-22)
+
+
+### Features
+
+* **docker:** support ARGS= passthrough to toktrack in docker-run/report ([33e5143](https://github.com/slmingol/toktrack/commit/33e51436dfc5499afa65020124fa164f58ed533e))
+
 ## [3.1.2](https://github.com/slmingol/toktrack/compare/v3.1.1...v3.1.2) (2026-05-22)
 
 
