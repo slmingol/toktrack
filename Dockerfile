@@ -5,16 +5,18 @@ WORKDIR /build
 # Cache dependency compilation as a separate layer.
 # Only invalidated when Cargo.toml or Cargo.lock change.
 COPY Cargo.toml Cargo.lock ./
-RUN mkdir src && \
+RUN mkdir -p src benches && \
     echo "fn main() {}" > src/main.rs && \
     echo "" > src/lib.rs && \
+    echo "fn main() {}" > benches/parser_bench.rs && \
     CARGO_PROFILE_RELEASE_LTO=false \
     CARGO_PROFILE_RELEASE_CODEGEN_UNITS=16 \
     cargo build --release --bins && \
-    rm -rf src target/release/deps/toktrack* target/release/toktrack
+    rm -rf src benches target/release/deps/toktrack* target/release/toktrack
 
 # Rebuild only toktrack when source changes
 COPY src ./src
+COPY benches ./benches
 RUN CARGO_PROFILE_RELEASE_LTO=false \
     CARGO_PROFILE_RELEASE_CODEGEN_UNITS=16 \
     cargo build --release --bins
