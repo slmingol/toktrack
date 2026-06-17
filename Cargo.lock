@@ -2644,7 +2644,7 @@ dependencies = [
 
 [[package]]
 name = "toktrack"
-version = "3.2.0"
+version = "3.2.1"
 dependencies = [
  "anyhow",
  "chrono",
