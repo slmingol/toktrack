@@ -84,7 +84,7 @@ _ensure-image:
 
 # Docker/Podman: run TUI (interactive). Pass extra args via ARGS=: make docker-run ARGS=weekly
 docker-run: _ensure-image
-	$(RUNTIME) run --rm -it \
+	@$(RUNTIME) run --rm -it \
 	    -e TERM=$(TERM) \
 	    -e COLORTERM=$(COLORTERM) \
 	    -v $(HOME)/.claude:/root/.claude:ro \
@@ -96,7 +96,7 @@ docker-run: _ensure-image
 
 # Docker/Podman: run CLI report (non-interactive). Pass extra args via ARGS=
 docker-report: _ensure-image
-	$(RUNTIME) run --rm \
+	@$(RUNTIME) run --rm \
 	    -e TERM=$(TERM) \
 	    -e COLORTERM=$(COLORTERM) \
 	    -v $(HOME)/.claude:/root/.claude:ro \
