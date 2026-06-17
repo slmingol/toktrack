@@ -1,15 +1,21 @@
 .DEFAULT_GOAL := help
 
-DOCKER := $(shell command -v docker 2>/dev/null)
-PODMAN := $(shell command -v podman 2>/dev/null)
-ifdef DOCKER
-  RUNTIME := docker
-  COMPOSE  := docker compose
-else ifdef PODMAN
+PODMAN          := $(shell command -v podman 2>/dev/null)
+DOCKER          := $(shell command -v docker 2>/dev/null)
+DOCKER_COMPOSE  := $(shell command -v docker-compose 2>/dev/null)
+
+ifdef PODMAN
   RUNTIME := podman
-  COMPOSE  := podman compose
+else ifdef DOCKER
+  RUNTIME := docker
 else
   $(error Neither docker nor podman found in PATH)
+endif
+
+ifdef DOCKER_COMPOSE
+  COMPOSE := docker-compose
+else
+  COMPOSE := $(RUNTIME) compose
 endif
 
 GHCR_OWNER ?= slmingol
@@ -78,11 +84,27 @@ _ensure-image:
 
 # Docker/Podman: run TUI (interactive). Pass extra args via ARGS=: make docker-run ARGS=weekly
 docker-run: _ensure-image
-	TOKTRACK_IMAGE=$(GHCR_IMAGE) $(COMPOSE) run --rm toktrack $(ARGS)
+	$(RUNTIME) run --rm -it \
+	    -e TERM=$(TERM) \
+	    -e COLORTERM=$(COLORTERM) \
+	    -v $(HOME)/.claude:/root/.claude:ro \
+	    -v $(HOME)/.codex:/root/.codex:ro \
+	    -v $(HOME)/.gemini:/root/.gemini:ro \
+	    -v $(HOME)/.local/share/opencode:/root/.local/share/opencode:ro \
+	    -v $(HOME)/.toktrack:/root/.toktrack \
+	    $(GHCR_IMAGE) $(ARGS)
 
 # Docker/Podman: run CLI report (non-interactive). Pass extra args via ARGS=
 docker-report: _ensure-image
-	TOKTRACK_IMAGE=$(GHCR_IMAGE) $(COMPOSE) run --rm toktrack report $(ARGS)
+	$(RUNTIME) run --rm \
+	    -e TERM=$(TERM) \
+	    -e COLORTERM=$(COLORTERM) \
+	    -v $(HOME)/.claude:/root/.claude:ro \
+	    -v $(HOME)/.codex:/root/.codex:ro \
+	    -v $(HOME)/.gemini:/root/.gemini:ro \
+	    -v $(HOME)/.local/share/opencode:/root/.local/share/opencode:ro \
+	    -v $(HOME)/.toktrack:/root/.toktrack \
+	    $(GHCR_IMAGE) report $(ARGS)
 
 # Setup git hooks
 setup:
