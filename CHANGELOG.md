@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.1](https://github.com/slmingol/toktrack/compare/v3.2.0...v3.2.1) (2026-06-17)
+
+
+### Bug Fixes
+
+* **docker:** fix TTY and runtime detection for podman environments ([ee2c2b4](https://github.com/slmingol/toktrack/commit/ee2c2b4ef96d97d58d168ea14bddcb8347d1dd99))
+* **docker:** silence docker-run/docker-report command echo ([fd8a307](https://github.com/slmingol/toktrack/commit/fd8a307dc193fcec2b79a3ee4dea5364af669b8c))
+
 ## [3.2.0](https://github.com/slmingol/toktrack/compare/v3.1.2...v3.2.0) (2026-05-22)
 
 
